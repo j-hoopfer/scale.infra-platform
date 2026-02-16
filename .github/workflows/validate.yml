@@ -8,6 +8,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.7.4
       - name: Terraform Fmt
         run: terraform fmt -check -recursive
 
