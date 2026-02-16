@@ -1,23 +1,33 @@
 name: Terraform Lint
-on: [pull_request]
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch: # Allow manual trigger
 
 jobs:
   tflint:
     name: TFLint
     runs-on: ubuntu-latest
+    env:
+      TFLINT_VERSION: v0.50.0
     steps:
       - uses: actions/checkout@v4
       - uses: actions/cache@v4
         with:
           path: ~/.tflint.d/plugins
-          key: tflint-${{ hashFiles('.tflint.hcl') }}
-
+          # give unique cache name to prevent reuse of an incompatible cached plugin set
+          key: tflint-${{ runner.os }}-${{ runner.arch }}-${{ env.TFLINT_VERSION }}-${{ hashFiles('.tflint.hcl') }}
       - uses: terraform-linters/setup-tflint@v4
         with:
-          tflint_version: v0.50.0
-
+          tflint_version: ${{ env.TFLINT_VERSION }}
       - name: Init TFLint
         run: tflint --init
-
       - name: Run TFLint
-        run: tflint -f compact
+        # find all directories containing Terraform files and lint each one
+        run: |
+          set -euo pipefail
+          find . -type f -name '*.tf' -printf '%h\n' | sort -u | while read -r dir; do
+            echo "Running tflint in ${dir}"
+            (cd "${dir}" && tflint -f compact)
+          done
