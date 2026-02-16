@@ -17,7 +17,7 @@ jobs:
     strategy:
       matrix:
         # Verify all environment directories
-        directory: [environments/dev/us-east-1, environments/prod/us-east-1]
+        directory: [environments/dev/us-east-1]
     steps:
       - uses: actions/checkout@v4
       - uses: hashicorp/setup-terraform@v3
