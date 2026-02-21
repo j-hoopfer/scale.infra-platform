@@ -6,6 +6,7 @@ provider "aws" {
       Environment = "dev"
       Repository  = "infra-platform"
       ManagedBy   = "Terraform"
+      Owner       = "PlatformTeam"
     }
   }
 }
