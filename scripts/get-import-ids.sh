@@ -1,5 +1,6 @@
 #!/bin/bash
 # Script to retrieve AWS network resource IDs for Terraform import
+# DNS records could be hosted in networking or payer account
 
 set -e
 
@@ -40,4 +41,12 @@ echo ""
 echo "=== Route Tables ==="
 aws ec2 describe-route-tables --filters "Name=vpc-id,Values=$VPC_ID" \
   --query 'RouteTables[].[RouteTableId,Tags[?Key==`Name`].Value|[0],Associations[].SubnetId]' \
+  --output table
+
+echo ""
+echo "=== Route 53 Public Hosted Zones ==="
+# Lists all public hosted zones — identify the one for the organization
+# The Id field (e.g. /hostedzone/Z1234EXAMPLE) is used as the import ID for aws_route53_zone.
+aws route53 list-hosted-zones \
+  --query 'HostedZones[?Config.PrivateZone==`false`].[Name,Id,Config.PrivateZone]' \
   --output table
