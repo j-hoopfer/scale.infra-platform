@@ -1,0 +1,9 @@
+terraform {
+  backend "s3" {
+    bucket       = "scale-solutions-terraform-state-dev"
+    key          = "platform/dev/us-east-1/01-compute/terraform.tfstate"
+    region       = "us-east-1"
+    encrypt      = true
+    use_lockfile = true
+  }
+}
