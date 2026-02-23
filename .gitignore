@@ -8,7 +8,9 @@ tfplan*
 *.tfstate
 *.tfstate.*
 *.tfvars
+!*.auto.tfvars
 !*.tfvars.example
+
 crash.log
 override.tf
 override.tf.json
