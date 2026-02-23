@@ -45,7 +45,7 @@ aws ec2 describe-route-tables --filters "Name=vpc-id,Values=$VPC_ID" \
 
 echo ""
 echo "=== Route 53 Public Hosted Zones ==="
-# Lists all public hosted zones — identify the one for scale-solutions.io.
+# Lists all public hosted zones — identify the one for the organization
 # The Id field (e.g. /hostedzone/Z1234EXAMPLE) is used as the import ID for aws_route53_zone.
 aws route53 list-hosted-zones \
   --query 'HostedZones[?Config.PrivateZone==`false`].[Name,Id,Config.PrivateZone]' \
