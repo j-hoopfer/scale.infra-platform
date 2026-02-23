@@ -59,6 +59,6 @@ output "ecs_log_group_name" {
 
 # ── Private DNS ────────────────────────────────────────────────────────────────
 output "private_zone_id" {
-  description = "Route 53 private hosted zone ID — service stacks register corp.internal alias records here"
+  description = "Route 53 private hosted zone ID — service stack that registers the internal alias records here"
   value       = aws_route53_zone.internal.zone_id
 }
