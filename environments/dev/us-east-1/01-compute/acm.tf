@@ -1,7 +1,7 @@
 # ── Certificate ───────────────────────────────────────────────────────────────
 resource "aws_acm_certificate" "main" {
-  domain_name               = "*.scale-consulting.io"
-  subject_alternative_names = ["scale-consulting.io"]
+  domain_name               = "*.${var.domain_name}"
+  subject_alternative_names = [var.domain_name]
   validation_method         = "DNS"
 
   lifecycle {
@@ -16,7 +16,7 @@ resource "aws_acm_certificate" "main" {
 data "aws_route53_zone" "public" {
   provider = aws.dns
 
-  name         = "scale-consulting.io"
+  name         = var.domain_name
   private_zone = false
 }
 
